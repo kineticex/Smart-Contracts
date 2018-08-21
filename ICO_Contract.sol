@@ -116,7 +116,7 @@ interface TokenInterface {
   
   bool isCrowdsalePaused = false;
   
-  uint256 totalDurationInDays = 45 days;
+  uint256 totalDurationInDays = 87 days;
   
   uint256 LongTermFoundationBudgetAccumulated;
   uint256 LegalContingencyFundsAccumulated;
@@ -133,36 +133,7 @@ interface TokenInterface {
   uint256 OperationalExpensesPercentage;
   uint256 SoftwareProductDevelopmentPercentage;
   uint256 FoundersTeamAndAdvisorsPercentage;
-  
-  //Whitelist 
-  struct Whitelist {
-    	string Email;
-    }
-    
-    mapping (address => Whitelist) Whitelists;
-    
-    address[] public WhitelistsAccts;
-    
-    function setWhitelist(address _address, string _Email) public  {
-        var whitelist = Whitelists[_address];
-        whitelist.Email = _Email;
 
-    	WhitelistsAccts.push(_address) -1;
-    }
-    
-    function getWhitelist() view public returns (address[]) {
-    	return WhitelistsAccts;
-    }
-    
-    function searchWhitelist(address _address) view public returns (string){
-        return (Whitelists[_address].Email);
-    }
-    
-    function countWhitelists() view public returns (uint) {
-        return WhitelistsAccts.length;
-    }
-  
-  
   /**
    * event for token purchase logging
    * @param purchaser who paid for the tokens
@@ -212,13 +183,7 @@ interface TokenInterface {
   
    // fallback function can be used to buy tokens
    function () public  payable {
-     var isexist = searchWhitelist(msg.sender);
-     //Check if address is exist 
-     if(bytes(isexist).length > 0){
-        buyTokens(msg.sender);
-     }else{
-         revert();
-     }
+    buyTokens(msg.sender);
     }
     
     function calculateTokens(uint value) internal view returns (uint256 tokens) 
